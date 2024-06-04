@@ -4,7 +4,7 @@
 
 1. Create a new tag for your existing image. Note that this will not duplicate the image. The reason for that is the image name must be prefixed with the registry name before it is pushed. The name must follow this signature -> `<docker-id>/<image-name>:<tag>`
 
-```
+```sh
 docker tag hello docker_id/hello
 docker login -u docker_id -p <your-password>
 docker push docker_id/hello
@@ -12,7 +12,7 @@ docker push docker_id/hello
 
 2. Run the newly pushed image on a different computer.
 
-```
+```sh
 docker run --rm docker_id/hello
 ```
 
@@ -61,4 +61,30 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
 RUN apt-get install -y php5
 
 COPY . .
+```
+
+## Monitor docker stats
+
+```sh
+docker stats
+```
+
+This will output a live list of running containers plus information about how many resources they consume on the host machine. Like a docker ps extended with live resource usage data.
+
+## Reclaiming your space
+
+Most commands ask for an interactive confirmation, but if you want to run them unattended you can add the -f switch.
+
+Here are the commands you can run to remove the items that you don’t need:
+
+```sh
+docker container prune -f
+docker volume prune -f
+docker image prune -f
+```
+
+Note that only dangling images are removed. Unused images are kept, which is fine if a network connection is scarce or unavailable because it means you keep base images that may be useful later on. If you want to remove all unused images, just use the following command:
+
+```sh
+docker image prune --all
 ```
